@@ -25,7 +25,7 @@ const Lexer = struct {
         };
     }
 
-    pub fn analyze(self: *Self) []LexicalToken {
+    pub fn analyze(self: *Self) []const LexicalToken {
         _ = self;
         return &[_]LexicalToken{};
     }
@@ -56,12 +56,13 @@ const Lexer = struct {
 
 pub fn main() !void {}
 
-test "can parse basic expression" {
+test "can lex basic expression" {
     var lexer = Lexer.new("5 + 7");
     const analysis = lexer.analyze();
 
-    try std.testing.expectEqual(analysis.len, 3);
+    try std.testing.expectEqual(analysis.len, 4);
     try std.testing.expectEqual(analysis[0], .{ .number = 5 });
     try std.testing.expectEqual(@as(LexicalTokenTag, analysis[1]), LexicalTokenTag.plus);
-    try std.testing.expectEqual(analysis[1], .{ .number = 7 });
+    try std.testing.expectEqual(analysis[2], .{ .number = 7 });
+    try std.testing.expectEqual(@as(LexicalTokenTag, analysis[3]), LexicalTokenTag.eof);
 }
