@@ -64,8 +64,11 @@ const Lexer = struct {
                     _ = self.consume();
                     try tokens.append(LexicalToken.plus);
                 },
-                else => {
+                ' ', '\t' => {
                     _ = self.consume();
+                },
+                else => {
+                    std.debug.panic("Unrecognized token `{c}`", .{c});
                 },
             }
         }
